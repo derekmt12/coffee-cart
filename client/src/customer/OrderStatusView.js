@@ -17,7 +17,8 @@ export class OrderStatusView extends Component {
     }
 
     componentDidMount() {
-        OrdersApi.getOrders(this.state.orderId).then(order => this.setState({ order }));
+        OrdersApi.getOrders(this.state.orderId)
+            .then(order => this.setState({ order }));
     }
 
     render() {

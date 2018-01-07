@@ -21,7 +21,8 @@ export class WorkerView extends Component {
 	}
 
 	componentDidMount() {
-		OrdersApi.getOrders().then(orders => this.setState({ orders }));
+		OrdersApi.getOrders()
+			.then(orders => this.setState({ orders }));
 	}
 
 	onStart = (order, e) => {

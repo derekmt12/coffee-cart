@@ -21,7 +21,8 @@ class QueueViewComponent extends Component {
 	}
 
 	componentDidMount() {
-		OrdersApi.getOrders().then(orders => this.setState({ orders }));
+        OrdersApi.getOrders()
+            .then(orders => this.setState({ orders }));
     }
     
     viewOrder = (e, order) => {

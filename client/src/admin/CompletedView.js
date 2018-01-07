@@ -18,7 +18,8 @@ export class CompletedView extends Component {
 	}
 
 	componentDidMount() {
-		OrdersApi.getOrders().then(orders => this.setState({ orders }));
+		OrdersApi.getOrders()
+			.then(orders => this.setState({ orders }));
 	}
 
 	render() {
