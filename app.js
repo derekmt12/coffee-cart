@@ -45,21 +45,21 @@ router.get('/next/:id', function (req, res, next) {
 });
 app.use('/api/orders', router);
 
-io.on('connection', (client) => {
-	client.on('order', (order, onComplete) => {
-		order.id = id++;
-		orders[order.id] = order;
-		onComplete(order);
+// io.on('connection', (client) => {
+// 	client.on('order', (order, onComplete) => {
+// 		order.id = id++;
+// 		orders[order.id] = order;
+// 		onComplete(order);
 
-		client.broadcast.emit('orders', order);
-	});
+// 		client.broadcast.emit('orders', order);
+// 	});
 
-	client.on('order:update', (order) => {
-		orders[order.id] = order;
-		client.broadcast.emit(`order:${order.id}`, order);
-	});
-});
-io.listen(8000);
+// 	client.on('order:update', (order) => {
+// 		orders[order.id] = order;
+// 		client.broadcast.emit(`order:${order.id}`, order);
+// 	});
+// });
+// io.listen(8000);
 console.log('io listening on port 8000');
 
 // catch 404 and forward to error handler
