@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import Button from 'material-ui/Button';
 
-import { updateOrder, OrdersApi } from '../api';
+import { OrdersApi } from '../api/OrdersApi';
+import { updateOrder } from '../api/orderingSocket';
 
-class ViewOrderViewComponent extends Component {
+export class ViewOrderView extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -14,64 +14,77 @@ class ViewOrderViewComponent extends Component {
     }
 
     componentDidMount() {
-        OrdersApi.getOrders(this.state.orderId)
-            .then(order => this.setState({ order }));
+        OrdersApi.getOrders(this.state.orderId).then(order => this.setState({ order }));
     }
 
     onStart = (order, e) => {
-		e.preventDefault();
-		this.setOrderStatus(order, 'started');
-	}
-
-	onComplete = (order, e) => {
-		e.preventDefault();
-		this.setOrderStatus(order, 'complete');
-    }
-    
-    setOrderStatus(order, status) {
-		const updatedOrder = { ...order, status };
-
-		if (status === 'started') {
-			updatedOrder.timeStarted = new Date();
-		}
-
-		if (status === 'complete') {
-			updatedOrder.timeCompleted = new Date();
-		}
-
-		this.setState(prevState => ({ order: updatedOrder }));
-		updateOrder(updatedOrder);
-	}
-
-    goBack = (e) => {
         e.preventDefault();
-        this.props.history.push('/queue');
+        this.setOrderStatus(order, 'started');
     };
 
-    nextOrder = (e) => {
+    onComplete = (order, e) => {
         e.preventDefault();
-        OrdersApi.getNextOrder(this.state.orderId)
-            .then(order => order && this.setState({ order }));
+        const updatedOrder = this.setOrderStatus(order, 'complete');
+        this.props.onComplete(updatedOrder);
+    };
+
+    setOrderStatus(order, status) {
+        const updatedOrder = { ...order, status };
+
+        if (status === 'started') {
+            updatedOrder.timeStarted = new Date();
+        }
+
+        if (status === 'complete') {
+            updatedOrder.timeCompleted = new Date();
+        }
+
+        this.setState(prevState => ({ order: updatedOrder }));
+        updateOrder(updatedOrder);
+
+        return updatedOrder;
+    }
+
+    onGoToQueue = e => {
+        const { onGoToQueue } = this.props;
+        e.preventDefault();
+
+        onGoToQueue && onGoToQueue();
+    };
+
+    nextOrder = e => {
+        e.preventDefault();
+        OrdersApi.getNextOrder(this.state.orderId).then(
+            order => order && this.setState({ order })
+        );
     };
 
     render() {
         const { order } = this.state;
 
-        if (!order) {
-            return null;
-        }
-
         return (
-            <div>
-                <Button raised onClick={(e) => this.goBack(e)}>Back to Queue</Button>
-                <h2>{order.description}</h2>
-                <h4>{order.name}</h4>
-                {order.status === 'submitted' && <Button raised onClick={(e) => this.onStart(order, e)}>Start</Button>}
-                {order.status === 'started' && <Button raised onClick={(e) => this.onComplete(order, e)}>Complete</Button>}
-                <Button raised onClick={(e) => this.nextOrder(e)}>Next Order</Button>
-            </div>
+            !!order && (
+                <div>
+                    <Button raised onClick={e => this.onGoToQueue(e)}>
+                        Back to Queue
+                    </Button>
+                    <h2>{order.description}</h2>
+                    <h4>{order.name}</h4>
+                    {order.status === 'submitted' && (
+                        <Button raised onClick={e => this.onStart(order, e)}>
+                            Start
+                        </Button>
+                    )}
+                    {order.status === 'started' && (
+                        <Button raised onClick={e => this.onComplete(order, e)}>
+                            Complete
+                        </Button>
+                    )}
+                    <Button raised onClick={e => this.nextOrder(e)}>
+                        Next Order
+                    </Button>
+                </div>
+            )
         );
     }
 }
-
-export const ViewOrderView = withRouter(ViewOrderViewComponent);

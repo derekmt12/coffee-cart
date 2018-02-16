@@ -23,10 +23,10 @@ class NavigationBarComponent extends Component {
 				<Toolbar>
 					<IconButton color="contrast" aria-label="Menu"><MenuIcon /></IconButton>
 					<Typography type="title" color="inherit">Title</Typography>
-					<Button color="contrast" aria-label="Queue" onClick={this.goTo('/queue')}>
+					<Button color="contrast" aria-label="Queue" onClick={this.goTo('/admin/queue')}>
 						{uncompletedOrderCount ? <Badge color="accent" badgeContent={uncompletedOrderCount}>Queue</Badge> : 'Queue'}
 					</Button>
-					<Button color="contrast" aria-label="Completed" onClick={this.goTo('/completed')}>
+					<Button color="contrast" aria-label="Completed" onClick={this.goTo('/admin/completed')}>
 						{completedOrderCount ? <Badge color="accent" badgeContent={completedOrderCount}>Completed</Badge> : 'Completed'}
 					</Button>
 				</Toolbar>

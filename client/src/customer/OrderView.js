@@ -3,7 +3,7 @@ import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
 import { withRouter } from 'react-router-dom';
 
-import { submitOrder } from '../api';
+import { submitOrder } from '../api/orderingSocket';
 
 class OrderViewComponent extends Component {
     constructor() {
@@ -17,15 +17,15 @@ class OrderViewComponent extends Component {
         };
     }
 
-    onSubmit = (e) => {
+    onSubmit = e => {
         e.preventDefault();
 
-        submitOrder(this.state.order, (order) => {
+        submitOrder(this.state.order, order => {
             this.props.history.push(`/order-status/${order.id}`);
         });
-    }
+    };
 
-    onNameChange = (e) => {
+    onNameChange = e => {
         const name = e.target.value;
         this.setState(prevState => ({
             ...prevState,
@@ -34,9 +34,9 @@ class OrderViewComponent extends Component {
                 name
             }
         }));
-    }
+    };
 
-    onDescriptionChange = (e) => {
+    onDescriptionChange = e => {
         const description = e.target.value;
         this.setState(prevState => ({
             ...prevState,
@@ -45,7 +45,7 @@ class OrderViewComponent extends Component {
                 description
             }
         }));
-    }
+    };
 
     render() {
         const { order } = this.state;
@@ -53,12 +53,22 @@ class OrderViewComponent extends Component {
             <form>
                 <h2>Order Form</h2>
                 <div>
-                    <TextField value={order.name} label="Name" onChange={this.onNameChange} />
+                    <TextField
+                        value={order.name}
+                        label="Name"
+                        onChange={this.onNameChange}
+                    />
                 </div>
                 <div>
-                    <TextField value={order.description} label="Order" onChange={this.onDescriptionChange} />
+                    <TextField
+                        value={order.description}
+                        label="Order"
+                        onChange={this.onDescriptionChange}
+                    />
                 </div>
-                <Button raised type="submit" color="accent" onClick={this.onSubmit}>Submit</Button>
+                <Button raised type="submit" color="accent" onClick={this.onSubmit}>
+                    Submit
+                </Button>
             </form>
         );
     }

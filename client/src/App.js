@@ -5,39 +5,33 @@ import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import blue from 'material-ui/colors/blue';
 import Reboot from 'material-ui/Reboot';
 
-import { OrderStatusView, OrderView } from './customer';
-import { WorkerView, QueueView, CompletedView, ViewOrderView } from './admin';
+import { OrderStatusView } from './customer/OrderStatusView';
+import { OrderView } from './customer/OrderView';
+import { WorkerView } from './admin/WorkerView';
+import AdminView from './admin/AdminView';
 
 const theme = createMuiTheme({
-	palette: {
-		primary: blue
-	}
+    palette: {
+        primary: blue
+    }
 });
 
 class App extends Component {
-	componentDidMount() {
-		// fetch('http://localhost:3000/users')
-		// 	.then(res => res.json())
-		// 	.then(users => this.setState({ users }));
-	}
-
-	render() {
-		return (
-			<MuiThemeProvider theme={theme}>
-				<Reboot />
-				<BrowserRouter>
-					<div>
-						<Route exact path="/" component={WorkerView} />
-						<Route path="/view/:id" component={ViewOrderView} />
-						<Route path="/queue" component={QueueView} />
-						<Route path="/completed" component={CompletedView} />
-						<Route path="/order" component={OrderView} />
-						<Route path="/order-status/:id" component={OrderStatusView} />
-					</div>
-				</BrowserRouter>
-			</MuiThemeProvider>
-		);
-	}
+    render() {
+        return (
+            <MuiThemeProvider theme={theme}>
+                <Reboot />
+                <BrowserRouter>
+                    <div>
+                        <Route exact path="/" component={WorkerView} />
+                        <Route path="/admin" component={AdminView} />
+                        <Route path="/order" component={OrderView} />
+                        <Route path="/order-status/:id" component={OrderStatusView} />
+                    </div>
+                </BrowserRouter>
+            </MuiThemeProvider>
+        );
+    }
 }
 
 export default App;

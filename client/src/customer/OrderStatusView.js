@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import Moment from 'react-moment';
 
-import { subscribeToOrderUpdates, OrdersApi } from '../api';
+import { subscribeToOrderUpdates } from '../api/orderingSocket';
+import { OrdersApi } from '../api/OrdersApi';
 
 export class OrderStatusView extends Component {
     constructor(props) {
@@ -11,14 +12,13 @@ export class OrderStatusView extends Component {
             order: null
         };
 
-        subscribeToOrderUpdates(this.state.orderId, (order) =>  {
+        subscribeToOrderUpdates(this.state.orderId, order => {
             this.setState({ order });
         });
     }
 
     componentDidMount() {
-        OrdersApi.getOrders(this.state.orderId)
-            .then(order => this.setState({ order }));
+        OrdersApi.getOrders(this.state.orderId).then(order => this.setState({ order }));
     }
 
     render() {
@@ -32,9 +32,20 @@ export class OrderStatusView extends Component {
             <div>
                 <h2>Order ID: {order.id}</h2>
                 <div>Status: {order.status}</div>
-                <div>Submitted: <Moment format='h:mm:ss a'>{order.timeSubmitted}</Moment></div>
-                {order.timeStarted && <div>Started: <Moment format='h:mm:ss a'>{order.timeStarted}</Moment></div>}
-                {order.timeCompleted && <div>Completed: <Moment format='h:mm:ss a'>{order.timeCompleted}</Moment></div>}
+                <div>
+                    Submitted: <Moment format="h:mm:ss a">{order.timeSubmitted}</Moment>
+                </div>
+                {order.timeStarted && (
+                    <div>
+                        Started: <Moment format="h:mm:ss a">{order.timeStarted}</Moment>
+                    </div>
+                )}
+                {order.timeCompleted && (
+                    <div>
+                        Completed:{' '}
+                        <Moment format="h:mm:ss a">{order.timeCompleted}</Moment>
+                    </div>
+                )}
             </div>
         );
     }
