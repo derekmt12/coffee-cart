@@ -8,7 +8,7 @@ import Reboot from 'material-ui/Reboot';
 import { OrderStatusView } from './customer/OrderStatusView';
 import { OrderView } from './customer/OrderView';
 import { WorkerView } from './admin/WorkerView';
-import AdminView from './admin/AdminView';
+import { AdminContainer } from './admin/AdminContainer';
 
 const theme = createMuiTheme({
     palette: {
@@ -24,7 +24,7 @@ class App extends Component {
                 <BrowserRouter>
                     <div>
                         <Route exact path="/" component={WorkerView} />
-                        <Route path="/admin" component={AdminView} />
+                        <Route path="/admin" component={AdminContainer} />
                         <Route path="/order" component={OrderView} />
                         <Route path="/order-status/:id" component={OrderStatusView} />
                     </div>
