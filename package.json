@@ -1,19 +1,31 @@
 {
   "name": "coffee-cart",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "PORT=3001 node ./bin/www"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "proxy": "http://localhost:3001/",
+  "devDependencies": {
+    "react-scripts": "1.0.17"
   },
   "dependencies": {
-    "body-parser": "~1.18.2",
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.6.9",
-    "express": "~4.15.5",
-    "jade": "~1.11.0",
-    "morgan": "~1.9.0",
-    "redis": "^2.8.0",
-    "serve-favicon": "~2.4.5",
-    "socket.io": "^2.0.4"
+    "@material-ui/core": "^3.5.1",
+    "@material-ui/icons": "^3.0.1",
+    "lodash": "^4.17.11",
+    "moment": "^2.22.2",
+    "prop-types": "^15.6.2",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-moment": "^0.8.3",
+    "react-redux": "^5.1.1",
+    "react-router-dom": "^4.3.1",
+    "redux": "^4.0.1",
+    "socket.io-client": "^2.1.1",
+    "typeface-roboto": "0.0.54",
+    "whatwg-fetch": "^3.0.0"
   }
 }
